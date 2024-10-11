@@ -1,4 +1,5 @@
 import User from "../../src/controllers/account/User.js";
+import Transaccion from "../../src/controllers/operation/Transaccion.js";
 
 export function completeInput(array){
     let counter = 0;
@@ -44,12 +45,21 @@ export function initSession(account){
     }
 }
 
+export function findUser (){
+    let account = JSON.parse(sessionStorage.getItem("account"));
+    return User.userData.find(user => user._id == account._id);
+}
 
-export function instanceTransaction(user){
-    user.getTransactions().getManager().createTransaction(user.getId(), "Ingreso", 6500, "Pago nomina", "salario", "2024-10-08");
-    user.getTransactions().getManager().createTransaction(user.getId(), "Gasto", 1400, "Alquiler casa", "arriendo", "2024-10-08");
-    user.getTransactions().getManager().createTransaction(user.getId(), "Ingreso", 2150, "Comision trabajo", "bono", "2024-10-08");
-    user.getTransactions().getManager().createTransaction(user.getId(), "Gasto", 450, "Factura hogar", "servicios", "2024-10-08");
+export function instanceTransaction(){
+    let admin = new User("José", "jfnr398", "1234");
+    let admin1 = new User("Fernando", "fercho398", "4321");
 
-    user.getTransactions().updateListsUser(user.getId());
+    console.log("Desde instanceTransaction", Transaccion.transactionData)
+
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 6500, "Pago nomina", "Salario", "2024-10-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1400, "Alquiler casa", "Arriendo", "2024-10-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2150, "Comision trabajo", "Bono", "2024-10-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 450, "Factura hogar", "Servicios", "2024-10-08");
+
+    admin.getTransactions().updateListsUser(admin.getId());
 }

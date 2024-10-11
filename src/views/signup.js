@@ -1,5 +1,9 @@
 import User from "../controllers/account/User.js";
-import { completeInput, confirmPassword, initSession} from "../../assets/js/util.js";
+import { completeInput, confirmPassword, initSession } from "../../assets/js/util.js";
+import Transaccion from "../controllers/operation/Transaccion.js";
+
+User.loadDataSession();
+Transaccion.loadDataSession();
 
 const inputName = document.getElementById("name");
 const inputEmail = document.getElementById("email");
@@ -28,5 +32,3 @@ document.querySelector("input[type = 'submit']").addEventListener("click", funct
         statusRegister.textContent = ""
     }, 3000);
 });
-
-

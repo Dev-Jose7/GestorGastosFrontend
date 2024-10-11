@@ -1,11 +1,9 @@
 import User from "../controllers/account/User.js";
 import { completeInput, initSession, instanceTransaction } from "../../assets/js/util.js";
+import Transaccion from "../controllers/operation/Transaccion.js";
 
-let admin = new User("José", "jfnr398", "1234");
-let admin1 = new User("Fernando", "fercho398", "4321");
-
-instanceTransaction(admin);
-instanceTransaction(admin1);
+User.loadDataSession();
+Transaccion.loadDataSession();
 
 const inputEmail = document.getElementById("email");
 const inputPassword = document.getElementById("password");

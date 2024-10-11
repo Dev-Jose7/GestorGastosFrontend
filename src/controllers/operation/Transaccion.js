@@ -18,6 +18,7 @@ export default class Transaccion {
             this._categoria = categoria;
             this._fecha = fecha;
             Transaccion.transactionData.push(this); //este this se refiere a la instancia que se realizo en createTransaction
+            Transaccion.saveDataSession();
         } else { //Si se instancia vacio, creará un objeto en el atributo transactions del usuario el cual almancenará los siguientes arreglos
             this._listTransactions = [];
             this._ingresos = [];
@@ -25,6 +26,22 @@ export default class Transaccion {
             this._1manager = new TransactionManager();
             this._2filter = new TransactionFilter();
         }
+    }
+
+    static saveDataSession(){
+        sessionStorage.setItem("transaction", JSON.stringify(Transaccion.transactionData)) 
+        //Guarda en sessionStorage la base de datos de las transacciones (transactionData) cuando haya modificaciones en esta (crear, modificar o eliminar una transacción). Esto con el fin de conservar los valores que se hayan almacenado en la base de datos para poder utilizarlos en una nueva página.
+    }
+
+    static loadDataSession(){
+        let data = JSON.parse(sessionStorage.getItem("transaction"));
+        for (let i = 0; i < data.length; i++) {
+            let transaction = new Transaccion(data[i]._user, data[i]._tipo, data[i]._valor, data[i]._descripcion, data[i]._categoria, data[i]._fecha)
+            transaction.setId(data[i]._id);
+        }
+        //Carga en la base de datos (transactionData) el elemento almacenado en sessionStorage (gestionado por saveDataSession). Esto con el fin de entregar a la base de datos todos los valores que fueron añadidos a la esta antes de recargar la pagina, esto permite a la base de datos mantenerse actualizada constantemente
+        //Función que reconstruye una instancia después de ser transformada nuevamente a su valor original (JSON.parse). Esto debido a que las instancias se encontraban almacenadas en formato JSON (JSON.stringify)
+        //JSON transforma la base de datos en una cadena de caracteres para que sessionStorage pueda almacenarla y al transformarla nuevamente a su valor original (arreglo de objetos), los objetos no conservarán sus métodos de clase ya que se pierde la instancia del objeto al momento de la conversion al intentar almacenar la base de datos en sessionStorage
     }
 
     getId() {
@@ -49,6 +66,10 @@ export default class Transaccion {
 
     getListGasto() {
         return this._gastos;
+    }
+
+    setId(id){
+        this._id = id;
     }
 
     setDescripcion(descripcion) {
