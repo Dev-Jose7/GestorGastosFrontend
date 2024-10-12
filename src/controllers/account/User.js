@@ -2,7 +2,7 @@ import Transaccion from "../operation/Transaccion.js";
 import Category from "../tag/Category.js";
 
 export default class User{
-    static userData = [];
+    static _userData = [];
     static counterUser = 0;
 
     constructor(name, email, password){
@@ -12,7 +12,7 @@ export default class User{
         this._password = password;
         this._transactions = new Transaccion();
         this._categories = new Category();
-        User.userData.push(this);
+        User._userData.push(this);
         User.saveDataSession();
     }
 
@@ -36,12 +36,16 @@ export default class User{
         return this._categories;
     }
 
+    static getUserData(){
+        return User._userData;
+    }
+
     setId(id){
         this._id = id;
     }
 
     static saveDataSession(){
-        sessionStorage.setItem("database", JSON.stringify(User.userData));
+        sessionStorage.setItem("database", JSON.stringify(User._userData));
         console.log(sessionStorage.getItem("database"))
         //Guarda en sessionStorage la base de datos de los usuarios (userData) cuando haya modificaciones en esta (crear, modificar o eliminar un usuario). Esto con el fin de conservar los valores que se hayan almacenado en la base de datos para poder utilizarlos en una nueva página.
     }
@@ -58,9 +62,9 @@ export default class User{
     }
 
     static validateUser(email, password){
-        for (let i = 0; i < User.userData.length; i++) {
-            if(User.userData[i]._email == email && User.userData[i]._password == password){
-                return User.userData[i];
+        for (let i = 0; i < User._userData.length; i++) {
+            if(User._userData[i]._email == email && User._userData[i]._password == password){
+                return User._userData[i];
             }
         }
         return false;
@@ -68,8 +72,8 @@ export default class User{
 
     static printUserData(){
         console.log("Lista de usuarios");
-        for (let i = 0; i < User.userData.length; i++) {
-            console.log(User.userData[i]);
+        for (let i = 0; i < User._userData.length; i++) {
+            console.log(User._userData[i]);
         }
     }
 

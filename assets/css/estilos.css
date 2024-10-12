@@ -4,6 +4,12 @@
     margin: 0 auto;
 }
 
+.usuario{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .balance{
     display: flex;
     flex-direction: column;
@@ -20,6 +26,10 @@
     display: flex;
     justify-content: space-between;
 
+}
+
+.transacciones > legend{
+    text-align: center;
 }
 
 .transacciones fieldset{
@@ -40,12 +50,15 @@
 
 /***LOG IN***/
 
+main{
+    height: 100vh;
+}
+
 .formulario,
 .dashboard{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 .dashboard{
@@ -54,10 +67,6 @@
 
 .dashboard fieldset{
     width: 100%;
-}
-
-.dashboard .transacciones{
-    width: 103%;
 }
 
 .formulario__contenedor{

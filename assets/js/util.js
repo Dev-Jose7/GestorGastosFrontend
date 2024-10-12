@@ -45,20 +45,28 @@ export function initSession(account){
     }
 }
 
+export function endSession(){
+    sessionStorage.removeItem("account");
+
+    setTimeout(() => {
+        window.location.href = "login.html"
+    }, 2000);
+}
+
 export function findUser (){
     let account = JSON.parse(sessionStorage.getItem("account"));
-    return User.userData.find(user => user._id == account._id);
+    return User.getUserData().find(user => user._id == account._id);
 }
 
 export function instanceTransaction(){
     let admin = new User("José", "jfnr398", "1234");
     let admin1 = new User("Fernando", "fercho398", "4321");
 
-    console.log("Desde instanceTransaction", Transaccion.transactionData)
+    console.log("Desde instanceTransaction", Transaccion.getTransactionData())
 
     admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 6500, "Pago nomina", "Salario", "2024-10-08");
     admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1400, "Alquiler casa", "Arriendo", "2024-10-08");
-    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2150, "Comision trabajo", "Bono", "2024-10-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2150, "Comision trabajo", "Comisión", "2024-10-08");
     admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 450, "Factura hogar", "Servicios", "2024-10-08");
 
     admin.getTransactions().updateListsUser(admin.getId());

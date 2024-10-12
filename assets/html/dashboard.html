@@ -9,9 +9,14 @@
 </head>
 <body>
     <main class="contenedor dashboard">
-        <fieldset>
+        <fieldset class="usuario">
             <legend>Usuario</legend>
             <h2 id="nombre"></h2>
+
+            <div>
+                <button>Mi cuenta</button>
+                <button id="logout">Cerrar sesión</button>
+            </div>
         </fieldset>
 
         <fieldset class="balance">
@@ -49,8 +54,8 @@
         <fieldset>
             <legend>Filtrar</legend>
             <form style="text-align: center;">
-                <input type="number" placeholder="Valor minimo" min="0">
-                <input type="number" placeholder="Valor máximo" min="0">
+                <input type="number" placeholder="Valor minimo (0)" min="0" id="minimoFilter">
+                <input type="number" placeholder="Valor máximo" min="0" id="maximoFilter">
 
                 <select id="tipoFilter" required>
                     <option disabled selected>Tipo</option>
@@ -67,7 +72,8 @@
             </form>
         </fieldset>
     
-        <div class="transacciones">
+        <fieldset class="transacciones">
+            <legend id="tituloSeccion">Lista de transacciones</legend>
             <fieldset id="campoIngresos">
                 <legend >Ingresos</legend>
 
@@ -80,7 +86,7 @@
 
                 <p>Sin transacciones</p>
             </fieldset>
-        </div>
+        </fieldset>
     </main>
 
     <!-- <script src="../../src/controllers/operation/Transaccion.js"></script>

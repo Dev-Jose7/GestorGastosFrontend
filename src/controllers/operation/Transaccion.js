@@ -6,7 +6,7 @@ export default class Transaccion {
     static ingresos = [];
     static gastos = [];
 
-    static transactionData = [];
+    static _transactionData = [];
 
     constructor(user = null, tipo = null, valor = null, descripcion = null, categoria = null, fecha = null) { //Parametros del constructor se asignan nulos esto con el fin de detectar mediante una condicional si se esta instanciando con o sin argumentos
         if (user && tipo && valor && descripcion && categoria && fecha) { //Si se instancia con parametros, creará un objeto el cual es una transaccion (tipo/gasto) y mediante el método que invoca al constructor (createTransaction) almacenara este objeto en el arreglo global de transacciones para así ser organizado en los arreglos del usuario
@@ -17,10 +17,11 @@ export default class Transaccion {
             this._descripcion = descripcion;
             this._categoria = categoria;
             this._fecha = fecha;
-            Transaccion.transactionData.push(this); //este this se refiere a la instancia que se realizo en createTransaction
+            Transaccion._transactionData.push(this); //este this se refiere a la instancia que se realizo en createTransaction
             Transaccion.saveDataSession();
         } else { //Si se instancia vacio, creará un objeto en el atributo transactions del usuario el cual almancenará los siguientes arreglos
             this._listTransactions = [];
+            this._listFilter = []; 
             this._ingresos = [];
             this._gastos = [];
             this._1manager = new TransactionManager();
@@ -29,7 +30,7 @@ export default class Transaccion {
     }
 
     static saveDataSession(){
-        sessionStorage.setItem("transaction", JSON.stringify(Transaccion.transactionData)) 
+        sessionStorage.setItem("transaction", JSON.stringify(Transaccion.getTransactionData())) 
         //Guarda en sessionStorage la base de datos de las transacciones (transactionData) cuando haya modificaciones en esta (crear, modificar o eliminar una transacción). Esto con el fin de conservar los valores que se hayan almacenado en la base de datos para poder utilizarlos en una nueva página.
     }
 
@@ -46,6 +47,22 @@ export default class Transaccion {
 
     getId() {
         return this._id;
+    }
+
+    getType() {
+        return this._tipo;
+    }
+
+    getValue(){
+        return this._valor;
+    }
+
+    getCategory() {
+        return this._categoria;
+    }
+
+    getDate() {
+        return this._fecha;
     }
 
     getListTransaction() {
@@ -68,6 +85,10 @@ export default class Transaccion {
         return this._gastos;
     }
 
+    static getTransactionData(){
+        return Transaccion._transactionData;
+    }
+
     setId(id){
         this._id = id;
     }
@@ -81,12 +102,18 @@ export default class Transaccion {
     }
 
     updateListsUser(id) {
-        this._listTransactions = Transaccion.transactionData.filter((transaction) => transaction._user == id)
+        this._listTransactions = Transaccion._transactionData.filter((transaction) => transaction._user == id)
         this._ingresos = this._listTransactions.filter((transaction) => transaction._tipo == "Ingreso");
         this._gastos = this._listTransactions.filter((transaction) => transaction._tipo == "Gasto");
         // console.log("Transacciones usuario: ", this._listTransactions);
         // console.log("Ingresos", this._ingresos);
         // console.log("Gastos", this._gastos);
+    }
+
+    updateListFilter(dataFilter){
+        this._listFilter = dataFilter;
+        this._ingresos = this._listFilter.filter((transaction) => transaction._tipo == "Ingreso");
+        this._gastos = this._listFilter.filter((transaction) => transaction._tipo == "Gasto");
     }
 
 }

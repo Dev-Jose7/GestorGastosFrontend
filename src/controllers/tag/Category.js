@@ -1,8 +1,10 @@
 export default class Category{
-    static _categoriesMain = [];
-    _categoriesUser = [];
+    static _categoriesMain;
 
     constructor(){
+        Category._categoriesMain = []; //Se asigna valor aqui para limpiar el arreglo
+        this._categoriesUser = [];
+
         this.defaultCategories();
         this.categoriesByUser();
     }
@@ -10,7 +12,7 @@ export default class Category{
     defaultCategories(){
         Category._categoriesMain.push("Salario");
         Category._categoriesMain.push("Arriendo");
-        Category._categoriesMain.push("Ingreso");
+        Category._categoriesMain.push("Comisión");
         Category._categoriesMain.push("Servicios");
         Category._categoriesMain.push("Transporte");
         Category._categoriesMain.push("Alimentación");
