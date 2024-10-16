@@ -3,8 +3,6 @@ import TransactionFilter from "./TransactionFilter.js";
 
 export default class Transaccion {
     static contadorId = 0;
-    static ingresos = [];
-    static gastos = [];
 
     static _transactionData = [];
 
@@ -101,7 +99,25 @@ export default class Transaccion {
         this._valor = valor;
     }
 
-    updateListsUser(id) {
+    totalIngreso(){
+        let contador = 0;
+        this._ingresos.forEach(transaction => {
+            contador += transaction._valor;
+        });
+
+        return contador;
+    }
+
+    totalGasto(){
+        let contador = 0;
+        this._gastos.forEach(transaction => {
+            contador += transaction._valor;
+        })
+
+        return contador;
+    }
+
+    updateListUser(id) {
         this._listTransactions = Transaccion._transactionData.filter((transaction) => transaction._user == id)
         this._ingresos = this._listTransactions.filter((transaction) => transaction._tipo == "Ingreso");
         this._gastos = this._listTransactions.filter((transaction) => transaction._tipo == "Gasto");

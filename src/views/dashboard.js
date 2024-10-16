@@ -26,27 +26,31 @@ let tipoFilter = document.getElementById("tipoFilter");
 let categoriaFilter = document.getElementById("categoriaFilter");
 let fechaFilter = document.getElementById("fechaFilter");
 
+
 User.loadDataSession();
 Transaccion.loadDataSession();
+Category.loadDataSession();
 
 if(page == "dashboard.html"){
     user = findUser();
-    
     console.log("Usuario: ", user)
 
     console.log("DB usuarios", User.getUserData())
     console.log("DB transacciones", Transaccion.getTransactionData())
     
-    
     document.addEventListener("DOMContentLoaded", function(){
-        user.getTransactions().updateListsUser(user.getId());
-        user.getCategories().printCategoriesByUser(categoria); //En seccion añadir
-        user.getCategories().printCategoriesByUser(document.getElementById("categoriaFilter")); //En seccion filtrar
+        user.getTransactions().updateListUser(user.getId());
+        user.getCategories().updateListUser(user.getId());
+        printTransactions();
+        printCategory()
         calculateBalance();
-        printSection();
     });
 
     document.getElementById("nombre").textContent = "Bienvenido " + user.getName();
+
+    document.getElementById("account").addEventListener("click", function(){
+        window.location.href = "account.html"
+    });
 
     document.getElementById("logout").addEventListener("click", function(){
         document.getElementById("nombre").textContent = `Hasta luego, ${user.getName()}`
@@ -54,14 +58,19 @@ if(page == "dashboard.html"){
         endSession();
     })
 
+    // categoria.addEventListener("click", function(){
+    //     Category.loadDataSession();
+    //     printCategory()
+    // });
+
     document.getElementById("confirmar").style.display = "none";
 
     document.getElementById("añadir").addEventListener("click", function(){
         user.getTransactions().getManager().createTransaction(user.getId(), tipo.value, +valor.value, descripcion.value, categoria.value, fecha.value);
-        user.getTransactions().updateListsUser(user.getId());
-        formatearCampo();
+        user.getTransactions().updateListUser(user.getId());
+        printTransactions();
         calculateBalance();
-        printSection();
+        formatearCampo();
         console.log(user);
     });
 
@@ -83,11 +92,11 @@ if(page == "dashboard.html"){
                 console.log("Eliminando");
                 id = button.closest(".transaccion").dataset.id;
                 user.getTransactions().getManager().deleteTransaction(id, button.closest(".transaccion"));
-                user.getTransactions().updateListsUser(user.getId());
+                user.getTransactions().updateListUser(user.getId());
                 Transaccion.saveDataSession();
                 calculateBalance();
                 if(!statusFilter){
-                    printSection();
+                    printTransactions();
                 }
             }
             
@@ -96,14 +105,14 @@ if(page == "dashboard.html"){
 
     document.getElementById("confirmar").addEventListener("click", function(){
         user.getTransactions().getManager().updateTransaction(id);
-        user.getTransactions().updateListsUser(user.getId());
+        user.getTransactions().updateListUser(user.getId());
         Transaccion.saveDataSession();
         calculateBalance();
         formatearCampo();
         if(statusFilter){
             resultFilter();
         } else if (!statusFilter){
-            printSection();
+            printTransactions();
         }
     });
 
@@ -130,7 +139,7 @@ if(page == "dashboard.html"){
             maximoFilter.required = true;
         }
         
-        user.getTransactions().updateListsUser(user.getId());
+        user.getTransactions().updateListUser(user.getId());
     });
 
     document.getElementById("cleanFilter").addEventListener("click", function(e){
@@ -138,8 +147,8 @@ if(page == "dashboard.html"){
 
         e.preventDefault();
 
-        user.getTransactions().updateListsUser(user.getId());
-        printSection();
+        user.getTransactions().updateListUser(user.getId());
+        printTransactions();
 
         minimoFilter.value = "";
         maximoFilter.value = "";
@@ -168,10 +177,15 @@ if(page == "dashboard.html"){
         document.getElementById("confirmar").style.display = "none";
     }
     
-    function printSection(){
+    function printTransactions(){
         user.getTransactions().getManager().printTransaction(user.getTransactions().getListIngreso(), campoIngresos);
         user.getTransactions().getManager().printTransaction(user.getTransactions().getListGasto(), campoGastos);
         printDefault();
+    }
+
+    function printCategory(){
+        user.getCategories().printCategories(categoria); //En seccion añadir
+        user.getCategories().printCategories(document.getElementById("categoriaFilter")); //En seccion filtrar
     }
     
     function printDefault(){
@@ -217,6 +231,6 @@ if(page == "dashboard.html"){
         console.log(user.getTransactions().getListTransaction())
 
         user.getTransactions().updateListFilter(dataFilter);
-        printSection();
+        printTransactions();
     }
 }

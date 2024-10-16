@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/estilos.css">
+    <title>Cuenta</title>
+</head>
+<body>
+    <main class="contenedor dashboard">
+        <fieldset class="usuario">
+            <legend>Menú</legend>
+            <h2>Mi cuenta</h2>
+
+            <div>
+                <button id="dashboard">Dashboard</button>
+                <button id="logout">Cerrar sesión</button>
+            </div>
+        </fieldset>
+
+        <fieldset class="estadisticas">
+            <legend>Totales</legend>
+            <div>
+                <h3>Ingresos registrados <span id="cantIngreso">0</span></h3>
+                <h3>Gastos registrados <span id="cantGasto">0</span></h3>
+            </div>
+
+            <div>
+                <h3>Total en ingresos: <span id="totalIngreso">0</span></h3>
+                <h3>Total en gastos: <span id="totalGasto">0</span></h3>
+            </div>
+        </fieldset>
+
+        <fieldset class="datos">
+            <legend>Datos personales</legend>
+            <div id="dataUser">
+                <h4>Nombre: <span id="name"></span></h4>
+                <h4>Correo: <span id="email"></span></h4>
+                <div class="datos__password">
+                    <h4>Contraseña: <span id="password"></span></h4>
+                    <div>
+                        <button id="showPassword">Mostrar contraseña</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modificar__formulario" id="updateForm">
+                <h4>Si no deseas cambiar datos haz click en guardar</h4>
+                <div class="datos__modificar">
+                    <h4 class="datos__titulo">Nombre:</h4>
+                    <div>
+                        <input id="updateName" type="text">
+                    </div>
+                </div>
+
+                <div class="datos__modificar">
+                    <h4 class="datos__titulo">Correo:</h4>
+                    <div>
+                        <input id="updateEmail" type="text">
+                    </div>
+                </div>
+
+                <div class="datos__modificar">
+                    <h4 class="datos__titulo">Contraseña:</h4>
+                    <div>
+                        <input id="updatePassword" type="text">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="datos__boton">
+                <button id="updateData">Modificar</button>
+            </div>
+        </fieldset>
+
+        <fieldset class="categorias">
+            <legend>Categorias</legend>
+            <div class="categorias__lista" id="showCategory">
+                <select id="categoria">
+                </select>
+            </div>
+
+            <div class="categorias__campo" id="inputCategory">
+                <input type="text">
+            </div>
+
+            <div class="categoria__botones" id="categoryButton">
+                <button id="addCategory">Añadir</button>  
+            </div>
+
+            <div class="categorias__edit">
+                <button id="updateCategory" disabled>Modificar</button>
+                <button id="deleteCategory" disabled>Eliminar</button>
+            </div>
+        </fieldset>
+    </main>
+
+    <script src="../../src/views/account.js" type="module"></script>
+</body>
+</html>

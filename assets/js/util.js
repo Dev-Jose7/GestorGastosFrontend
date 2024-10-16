@@ -69,5 +69,5 @@ export function instanceTransaction(){
     admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2150, "Comision trabajo", "Comisión", "2024-10-08");
     admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 450, "Factura hogar", "Servicios", "2024-10-08");
 
-    admin.getTransactions().updateListsUser(admin.getId());
+    admin.getTransactions().updateListUser(admin.getId());
 }

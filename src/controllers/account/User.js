@@ -12,6 +12,7 @@ export default class User{
         this._password = password;
         this._transactions = new Transaccion();
         this._categories = new Category();
+        this.generateCategory();
         User._userData.push(this);
         User.saveDataSession();
     }
@@ -28,6 +29,10 @@ export default class User{
         return this._email;
     }
 
+    getPassword(){
+        return this._password;
+    }
+
     getTransactions(){
         return this._transactions;
     }
@@ -42,6 +47,22 @@ export default class User{
 
     setId(id){
         this._id = id;
+    }
+
+    setName(name){
+        this._name = name;
+    }
+
+    setEmail(email){
+        this._email = email;
+    }
+
+    setPassword(password){
+        this._password = password;
+    }
+
+    generateCategory(){
+        Category.defaultCategories(this.getId());
     }
 
     static saveDataSession(){

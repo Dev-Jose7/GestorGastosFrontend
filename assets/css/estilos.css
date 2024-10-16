@@ -103,3 +103,63 @@ main{
 .formulario__boton{
     text-align: center;
 }
+
+.estadisticas{
+    display: flex;
+    justify-content: space-around;
+}
+
+.datos{
+    display: flex;
+    justify-content: space-between;
+}
+
+.datos__password{
+    height: 3vh;
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+}
+
+.datos__modificar{
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+}
+
+.datos__titulo{
+    flex: 0 0 30%;
+}
+
+.modificar__formulario{
+    display: none;
+}
+
+.categorias{
+    display: flex;
+    flex-direction: column;
+}
+
+.categoria__botones{
+    text-align: end;
+}
+
+.categorias__campo{
+    display: none;
+}
+
+.categorias__lista,
+.categorias__campo{
+    order: 1;
+}
+
+.categorias__edit{
+    order: 2;
+}
+
+.categorias__lista,
+.categorias__edit,
+.categorias__campo{
+    text-align: center;
+    margin: 2vh 0;
+}
