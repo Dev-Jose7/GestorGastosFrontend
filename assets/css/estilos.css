@@ -114,11 +114,18 @@ main{
     justify-content: space-between;
 }
 
-.datos__password{
-    height: 3vh;
+.datos__info{
     display: flex;
     align-items: center;
-    gap: 2vw;
+    gap: 1vw;
+}
+
+.datos__info h4{
+    flex: 0 0 30%;
+}
+
+.datos__info input{
+    width: 50%;
 }
 
 .datos__modificar{

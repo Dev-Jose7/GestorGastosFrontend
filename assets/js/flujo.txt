@@ -1,57 +1,230 @@
-Clases
+El proyecto Gestor de Gastos es una aplicación web que permite a los usuarios gestionar sus ingresos y gastos personales de manera eficiente. A través de una interfaz intuitiva, los usuarios pueden agregar, modificar y eliminar transacciones. Además, pueden visualizar estadísticas sobre sus gastos e ingresos, lo que les ayuda a llevar un control financiero más efectivo.
 
-Clase Transaccion
-    Ingreso - Hereda de Transaccion
-    Gasto - Hereda de Transaccion
+Funcionalidades Principales
+Registro y Autenticación: Los usuarios pueden registrarse y autenticarse para acceder a su cuenta.
+Gestión de Transacciones: Los usuarios pueden añadir, modificar y eliminar transacciones de ingresos y gastos.
+Categorías Personalizadas: Los usuarios pueden crear y gestionar categorías para clasificar sus transacciones.
+Filtrado de Transacciones: Permite a los usuarios filtrar transacciones por valor, tipo, categoría y fecha.
+Balance de Gastos e Ingresos: Proporciona un resumen del balance general, mostrando el total de ingresos, gastos y saldo actual.
 
-En la clase Transaccion se encontrarán todos los atributos y métodos necesarios para construir y controlar una transaccion, cada transaccion es un objeto y contarán con los siguientes atributos:
-    •id = Código de identificación de la transaccion
-    •tipo = Tipo de transaccion (ingreso/gasto)
-    •valor = El monto por la cuál se hizo la transaccion
-    •descripcion = Nota acerca de la transaccion
-    •categoria = Tag o significado acerca de la transaccion
-Se deben establecer esta cantidad de parametros en el constructor para que se lleve a cabo la creación del objeto
+============================================================================================================================================================================================================================================================================================================
+Estructura de carpetas
 
-Esta clase contará con tres atributos estáticos, es decir, atributos unicamente usados por esta clase, las cuáles son 
-    •contadorId = Contador de IDs, incrementará su valor a uno cada que se instancie esta clase asignando el valor del contador al atributo id 
+/GestorGastosFrontend
+│
+├── assets
+│   ├── css
+│   │   └── estilos.css
+│   ├── html
+│   │   ├── account.html
+│   │   ├── dashboard.html
+│   │   ├── login.html
+│   │   └── signup.html
+│   └── js
+│       └── util.js
+│
+└── src
+    ├── controllers
+    │   ├── account
+    │   │   └── User.js
+    │   ├── operation
+    │   │   ├── Transaccion.js
+    │   │   ├── TransactionManager.js
+    │   │   ├── TransactionFilter.js
+    │   └── tag
+    │       └── Category.js
+    │
+    └── views
+        ├── account.js
+        ├── dashboard.js
+        ├── login.js
+        └── signup.js
 
-    •ingresos = Atributo en donde se almacenará el arreglo de todas las transacciones de tipo ingreso
+============================================================================================================================================================================================================================================================================================================
 
-    •gastos = Atributo en donde se almacenará el arreglo de todas las transacciones de tipo gasto
-Estas dos últimos atributos sirven para tener acceso a la "base de datos" de las transacciones
+Flujo del Aplicativo de Gestión de Gastos
 
-Esta clase contiene siete métodos y estos permitirán manejar las transacciones que realice el usuario, estos métodos son:
-    •obtenerBalance = Permite obtener los arreglos en donde se almacenan todos las transacciones de acuerdo a su tipo para así poder realizar calculos al balance.
+1. Inicio de la Aplicación: Pantalla de Inicio de Sesión (login.html)
+Descripción: La aplicación comienza en la pantalla de inicio de sesión donde los usuarios pueden ingresar sus credenciales.
+Código involucrado: login.js se ejecuta cuando el DOM está listo.
+Eventos:
+Al hacer clic en el botón "Ingresar", se ejecuta el evento submit.
+El formulario envía el correo electrónico y la contraseña a través de los campos inputEmail y inputPassword.
+Validación: La función User.validateUser() busca el usuario en la base de datos (almacenada en sessionStorage). Si las credenciales son válidas, la sesión se inicia mediante initSession(account).
+Si el usuario es válido, se redirige a dashboard.html con la sesión iniciada. Si no, se muestra un mensaje de error.
+====================================================================================================
+2. Registro de Nuevos Usuarios (signup.html)
+Descripción: En esta pantalla, los nuevos usuarios pueden registrarse proporcionando su nombre, correo y contraseña.
+Código involucrado: signup.js se encarga de procesar los datos ingresados.
+Eventos:
+Al hacer clic en el botón "Registrarse", se valida que todos los campos estén completos mediante la función completeInput().
+También se valida que las contraseñas coincidan usando confirmPassword().
+Si todas las validaciones son correctas, se crea una nueva instancia de User con los datos proporcionados. El nuevo usuario se guarda en sessionStorage y se inicia sesión automáticamente mediante initSession(user).
+====================================================================================================
+3. Página Principal del Usuario: Dashboard (dashboard.html)
+Descripción: Esta página permite al usuario visualizar y gestionar sus transacciones, categorías y balance.
+Código involucrado: El archivo dashboard.js contiene la lógica de las operaciones principales.
+Eventos:
+Al cargar la página, se ejecutan las funciones User.loadDataSession(), Transaccion.loadDataSession() y Category.loadDataSession() para restaurar los datos del usuario, las transacciones y las categorías desde sessionStorage.
+El nombre del usuario es mostrado en la bienvenida, y el balance total de ingresos y gastos es calculado.
+Añadir transacciones:
+El usuario puede añadir nuevas transacciones completando el formulario. Al hacer clic en el botón "Añadir", se ejecuta createTransaction(), que crea una nueva transacción y la guarda en sessionStorage. La lista de transacciones se actualiza en tiempo real.
+Modificar/Eliminar transacciones:
+Los botones asociados a cada transacción permiten modificar o eliminar una transacción. Al modificar, se muestran los valores actuales de la transacción en el formulario para su edición, y luego se confirman los cambios. Al eliminar, se remueve la transacción de la base de datos.
+Filtrar transacciones:
+Los usuarios pueden filtrar las transacciones por tipo, categoría, valor o fecha. Al hacer clic en "Filtrar", se aplica el filtro mediante el método filter() de la clase TransactionFilter, y se muestran solo las transacciones que coinciden.
+====================================================================================================
+4. Gestión de Categorías: Cuenta de Usuario (account.html)
+Descripción: En esta página, el usuario puede gestionar su cuenta, ver sus estadísticas y administrar sus categorías personalizadas.
+Código involucrado: El archivo account.js gestiona esta página.
+Eventos:
+Visualización de estadísticas: Se muestran las estadísticas generales del usuario (número total de ingresos y gastos, balance total, etc.).
+Gestión de categorías:
+Las categorías por defecto son cargadas automáticamente, y el usuario puede añadir o modificar categorías personalizadas.
+Al hacer clic en el botón "Añadir", se despliega un formulario para ingresar una nueva categoría. Las categorías personalizadas se guardan en sessionStorage usando Category.saveDataSession().
+Las categorías por defecto no pueden ser modificadas ni eliminadas.
+Modificar datos del usuario:
+El usuario puede cambiar su nombre, correo electrónico o contraseña. Estos cambios se reflejan en sessionStorage mediante User.saveDataSession().
+====================================================================================================
+5. Cierre de Sesión
+Descripción: En cualquier momento, el usuario puede cerrar sesión.
+Código involucrado: Tanto en dashboard.js como en account.js, el evento click sobre el botón "Cerrar sesión" ejecuta la función endSession(), que borra la información de la sesión del sessionStorage y redirige al usuario de vuelta a login.html.
+====================================================================================================
+6. Datos Guardados en sessionStorage
+Descripción: La aplicación hace uso intensivo de sessionStorage para mantener la persistencia de datos mientras el usuario navega entre las páginas.
+Datos guardados:
+Usuarios: Los datos de los usuarios se almacenan en el objeto User._userData, que es un arreglo de todos los usuarios registrados. Estos datos se guardan y se restauran mediante sessionStorage.
+Transacciones: Las transacciones se almacenan en Transaccion._transactionData, y se gestionan mediante la clase Transaccion. Se guardan y restauran utilizando sessionStorage para asegurar que no se pierdan al recargar la página.
+Categorías: Las categorías personalizadas de cada usuario se almacenan en Category._categoriesData.
+====================================================================================================
+====================================================================================================
+====================================================================================================
 
-    •calcularBalance = Realiza los calculos del balance para indicar la información sobre los saldos
+Resumen General del Flujo
+1. El usuario llega a la pantalla de inicio de sesión (login.html) y, si las credenciales son válidas, se redirige al dashboard.html.
+2. En signup.html, el usuario puede registrarse si aún no tiene una cuenta.
+3. En dashboard.html, el usuario puede gestionar sus transacciones, aplicar filtros y ver su balance.
+4. En account.html, el usuario puede administrar su perfil y las categorías.
+5. Los datos del usuario, transacciones y categorías se almacenan en sessionStorage para su persistencia mientras navega por la aplicación.
+6. Al cerrar sesión, todos los datos de sesión se borran y el usuario es redirigido a la página de inicio de sesión.
 
-    •imprimirTransaccion = Crea la transacción y la imprime en su campo correspondiente en el dashboard
+====================================================================================================
+====================================================================================================
+====================================================================================================
 
-    •opcionesTransaccion = Método interno que enlaza a los botones de una transaccion (modificar - eliminar) con sus respectivos métodos para que estos puedan funcionar
+Consideraciones Finales
+-Cada página carga los datos desde sessionStorage al inicializar, lo que permite que la información esté disponible sin necesidad de recargar toda la aplicación desde un servidor.
+-La estructura de control y gestión de transacciones está diseñada para ser modular, lo que facilita su extensión en el futuro.
+-El flujo es sencillo y fácil de seguir, lo que proporciona una buena experiencia de usuario y una lógica clara para los desarrolladores que quieran mantener o mejorar el proyecto.
 
-    •eliminarTransaccion = Elimina una transacción tanto en su arreglo como en el campo en donde fue impreso
+============================================================================================================================================================================================================================================================================================================
 
-    •modificarTransaccion = Permite obtener los valores de una transacción existente para que estos puedan ser modificados desde los campos de entrada del dashboard 
+DIAGRAMA DE CLASE
++---------------------+
+|       User          |
++---------------------+
+| - _id               |
+| - _name             |
+| - _email            |
+| - _password         |
+| - _transactions     |
+| - _categories       |
+| + getId()          |
+| + getName()        |
+| + getEmail()       |
+| + getPassword()     |
+| + getTransactions() |
+| + getCategories()   |
+| + saveDataSession() |
+| + loadDataSession() |
++---------------------+
+          ^
+          |
+          |
++---------------------+
+|     Transaccion     |
++---------------------+
+| - _id               |
+| - _user             |
+| - _tipo             |
+| - _valor            |
+| - _descripcion      |
+| - _categoria        |
+| - _fecha            |
+| + getType()         |
+| + getValue()        |
+| + saveDataSession() |
+| + loadDataSession() |
++---------------------+
+          ^
+          |
+          |
++---------------------+
+|      Category       |
++---------------------+
+| - _tag              |
+| - _user             |
+| + getTag()          |
+| + getUserId()       |
+| + saveDataSession()  |
+| + loadDataSession()  |
++---------------------+
 
-    •confirmarTransaccion = Modifica los valores de una transacción ya existente actualizandola tanto en su arreglo como en el campo en donde fue impresa
+============================================================================================================================================================================================================================================================================================================
 
-==========================================================================
+DIAGRAMA DE CLASE DETALLADO
++------------------+
+|      User        |
++------------------+
+| -_userData: User[] |
+| -counterUser: int |
++------------------+
+| +constructor(name: string, email: string, password: string) |
+| +getId(): int |
+| +getName(): string |
+| +getEmail(): string |
+| +getPassword(): string |
+| +getTransactions(): Transaccion |
+| +getCategories(): Category |
+| +static loadDataSession(): void |
+| +static validateUser(email: string, password: string): User |
+| +static saveDataSession(): void |
++------------------+
 
-Clase Ingreso y Gasto
++------------------+
+|   Transaccion    |
++------------------+
+| -contadorId: int |
+| -_transactionData: Transaccion[] |
++------------------+
+| +constructor(user: string, tipo: string, valor: number, descripcion: string, categoria: string, fecha: Date) |
+| +static saveDataSession(): void |
+| +static loadDataSession(): void |
+| +getId(): int |
+| +getType(): string |
+| +getValue(): number |
+| +getCategory(): string |
+| +getDate(): Date |
+| +updateListUser(id: string): void |
+| +static getTransactionData(): Transaccion[] |
++------------------+
 
-En la clase Ingreso y Gasto se encuentra un atributo estático el cuál sirve para definir el tipo a una transaccion, el constructor de estas clases enviará sus parametros definidos como argumento a su clase padre (Transaccion) incluyendo el atributo estático para poder crear la transaccion de forma completa. De esta forma según la opción escogida por el usuario (sea registrar un ingreso o gasto) se instanciará la clase del tipo de transacción correspondiente y así crear la transacción. El atributo en cuestión es:
-    Gasto.tipo = "Gasto";
-    Ingreso.tipo = "Ingreso";
++------------------+
+|     Category      |
++------------------+
+| -_categoriesData: Category[] |
+| -_categoriesUser: string[] |
+| -_categoriesMain: string[] |
++------------------+
+| +constructor(tag: string, user: string) |
+| +static saveDataSession(): void |
+| +static loadDataSession(): void |
+| +static defaultCategories(): string[] |
+| +updateListUser(id: string): void |
+| +printCategories(select: HTMLSelectElement): void |
+| +validateCategory(newCategory: string): boolean |
+| +addCategory(category: string, user: string): void |
+| +deleteCategory(tag: string, idUser: string): void |
++------------------+
 
-==========================================================================
-
-Funcionamiento.
-El script principal es app.js ya que todas las clases se usarán en este script y se definirá eventos a los elementos HTML que componen al dashboard
-
-1. Añadir transacción:
-En app.js se registra un evento de tipo click al elemento HTML con id: añadir para que cuando se haga click en este botón se pueda crear una transaccion. Para ello en el elemento HTML "Añadir transacción" se debe completar obligatoriamente tres de los cuatro campos de entrada que contiene este elemento, los cuatro campos son:
-    select #tipo: Para los tipos de transaccion (ingreso/gasto) - obligatorio
-    select #categoria: Para añadir una categoria a la transacción - obligatorio
-    input #valor: Para añadir un valor a la transacción - obligatorio
-    input #descripcion: Para añadir una nota o comentario
-Una vez completado los tres o cuatro campos y se haga click en el botón de añadir, de acuerdo al valor (ingreso/gasto) del select #tipo se instanciará la clase del tipo correspondiente (clase Ingreso ó clase Gasto) para que de esta forma se instancie también la clase Transaccion esto debido ya que la clase Ingreso y Gasto heredan de la clase Transaccion y si una de ellas se instancia, Transaccion será instanciada.
+============================================================================================================================================================================================================================================================================================================

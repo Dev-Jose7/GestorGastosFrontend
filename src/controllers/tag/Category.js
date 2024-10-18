@@ -1,97 +1,118 @@
-export default class Category{
-    static _categoriesData = [];
+// Clase que gestiona las categorías de transacciones.
+export default class Category {
+    static _categoriesData = []; // Almacena todas las categorías.
 
-    constructor(tag = null, user = null){
-        if(tag, user){
-            this._tag = tag;
-            this._user = user;
-            Category._categoriesData.push(this);
-            Category.saveDataSession();
+    // Constructor de la clase Category.
+    constructor(tag = null, user = null) {
+        if (tag && user) { // Si se instancian con un tag y un usuario, se crea una categoría.
+            this._tag = tag; // Asigna la etiqueta de la categoría.
+            this._user = user; // Asigna el usuario al que pertenece la categoría.
+            Category._categoriesData.push(this); // Agrega la categoría a la lista.
+            Category.saveDataSession(); // Guarda la categoría en sessionStorage.
         } else {
-            this._categoriesUser = Category.defaultCategories();
+            this._categoriesMain = Category.defaultCategories(); // Carga categorías predeterminadas.
+            this._categoriesUser = []; // Inicializa la lista de categorías del usuario.
         }
     }
 
-    static saveDataSession(){
+    // Método estático para guardar las categorías en sessionStorage.
+    static saveDataSession() {
         sessionStorage.setItem("category", JSON.stringify(Category._categoriesData));
-        console.log(sessionStorage.getItem("category"))
+        console.log(sessionStorage.getItem("category"));
     }
 
-    static loadDataSession(){
-        Category._categoriesData = [];
-        console.log(sessionStorage.getItem("category"))
+    // Método estático para cargar las categorías desde sessionStorage.
+    static loadDataSession() {
+        Category._categoriesData = []; // Reinicia la lista de categorías.
+        console.log(sessionStorage.getItem("category"));
         try {
-            let tag = JSON.parse(sessionStorage.getItem("category"));
+            let tag = JSON.parse(sessionStorage.getItem("category")); // Parsea las categorías almacenadas.
             for (let i = 0; i < tag.length; i++) {
-                new Category(tag[i]._tag, tag[i]._user);
+                new Category(tag[i]._tag, tag[i]._user); // Crea instancias de categorías.
             }
         } catch (error) {
-            
+            // Manejo del error si las categorías no pueden ser cargadas.
         }
-        
-        console.log(sessionStorage.getItem("category"))
+        console.log(sessionStorage.getItem("category"));
     }
 
-    getCategoriesUser(){
-        return this._categoriesUser;
+    // Métodos para obtener los atributos de la categoría.
+    getCategoriesMain() { return this._categoriesMain; }
+    getCategoriesUser() { return this._categoriesUser; }
+    getTag() { return this._tag; }
+    getUserId() { return this._user; }
+
+    // Método estático para devolver las categorías predeterminadas.
+    static defaultCategories() {
+        return ["Salario", "Arriendo", "Comisión", "Servicios", "Transporte", "Alimentación", "Entretenimiento", "Compras", "Varios"];
     }
 
-    getTag(){
-        return this._tag;
-    }
+    // Método para actualizar la lista de categorías del usuario.
+    updateListUser(id) {
+        this._categoriesMain.forEach(category => {
+            if (!this._categoriesUser.includes(category)) {
+                this._categoriesUser.push(category); // Agrega categorías predeterminadas.
+            }
+        });
 
-    getUserId(){
-        return this._user;
-    }
-
-    static defaultCategories(){
-        let categoriesMain;
-        return categoriesMain = ["Salario", "Arriendo", "Comisión", "Servicios", "Transporte", "Alimentación", "Entretenimiento", "Compras", "Varios"];
-    }
-
-    updateListUser(id){ //Actualiza la lista de categorias de usuario con categorias personalidas si estas existen en su momento
-        
         Category._categoriesData.forEach(category => {
-            if(category._user == id){
-                this._categoriesUser.push(category._tag);
+            if (category._user == id && !this._categoriesUser.includes(category._tag)) {
+                this._categoriesUser.push(category._tag); // Agrega categorías personalizadas.
             }
         });
 
         console.log(this._categoriesUser);
     }
 
-    printCategories(select){
-        select.innerHTML = `<option disabled selected>Categoría</option>`
+    // Método para imprimir categorías en un elemento select.
+    printCategories(select) {
+        select.innerHTML = `<option disabled selected>Categoría</option>`;
         this._categoriesUser.forEach((category) => {
-            select.innerHTML += `<option value="${category}">${category}</option>`
+            select.innerHTML += `<option value="${category}">${category}</option>`;
         });
     }
 
-    validateCategory(newCategory){
+    // Método para validar si una categoría existe.
+    validateCategory(newCategory) {
         let status;
         this._categoriesUser.find(category => {
-            if(category == newCategory){
-                console.log("Encontrado")
-                status = true
+            if (category == newCategory) {
+                console.log("Encontrado");
+                status = true; // La categoría fue encontrada.
             }
         });
-        return status;
+        return status; // Retorna el estado de validación.
     }
 
-    addCategory(category, user){
-        new Category(category, user);
+    // Método para agregar una nueva categoría.
+    addCategory(category, user) {
+        new Category(category, user); // Crea una nueva categoría.
     }
 
-    updateCategory(tagOld, tagNew, id){
+    // Método para actualizar una categoría existente.
+    updateCategory(tagOld, tagNew, id) {
         console.log(id);
         Category._categoriesData.find(category => {
-            if(category._tag == tagOld && category._user == id){
-                category._tag = tagNew;
+            if (category._tag == tagOld && category._user == id) {
+                category._tag = tagNew; // Actualiza la etiqueta de la categoría.
             }
         });
     }
 
-    deleteCategory(index){
-        Category._categoriesData.splice(index, 1);
+    // Método para eliminar una categoría.
+    deleteCategory(tag, idUser) {
+        let index = Category._categoriesData.findIndex(category => {
+            return category._tag == tag && category._user == idUser; // Busca el índice de la categoría.
+        });
+
+        console.log(index);
+        Category._categoriesData.splice(index, 1); // Elimina la categoría del arreglo.
+        Category.saveDataSession(); // Guarda los cambios en sessionStorage.
+    }
+
+    // Método para eliminar una categoría predeterminada.
+    deleteCategoryMain(tag) {
+        let index = this._categoriesMain.findIndex(category => category == tag);
+        this._categoriesMain.slice(index, 1); // Elimina la categoría de la lista.
     }
 }

@@ -58,11 +58,11 @@ export function findUser (){
     return User.getUserData().find(user => user._id == account._id);
 }
 
-export function instanceTransaction(){
+export function instanceTest(){
     let admin = new User("José", "jfnr398", "1234");
     let admin1 = new User("Fernando", "fercho398", "4321");
 
-    console.log("Desde instanceTransaction", Transaccion.getTransactionData())
+    console.log("Desde instanceTest", Transaccion.getTransactionData())
 
     admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 6500, "Pago nomina", "Salario", "2024-10-08");
     admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1400, "Alquiler casa", "Arriendo", "2024-10-08");

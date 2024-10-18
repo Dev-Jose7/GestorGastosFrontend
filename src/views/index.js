@@ -1,2 +1,2 @@
-import { instanceTransaction } from "../../assets/js/util.js";
-instanceTransaction();
+import { instanceTest } from "../../assets/js/util.js";
+instanceTest();

@@ -1,24 +1,24 @@
 import Transaccion from "./Transaccion.js";
 
-export default class TransactionManager{
+// Clase que gestiona las transacciones.
+export default class TransactionManager {
 
-    constructor(){}
-
+    // Método para crear una nueva transacción.
     createTransaction(user, tipo, valor, descripcion, categoria, fecha) {
-        new Transaccion(user, tipo, valor, descripcion, categoria, fecha);
-        //El método al ser de instancia nos asegura siempre estar dentro de la instancia contenedora (atributo transactions de la instancia User) ya que para acceder a este método de instancia es necesario tener un objeto instanciado de transaccion y el primer objeto que se instancia es el objeto contenedor transactions de la instancia de User
-        //Además este método de instancia busca instanciar un nuevo objeto de transacción terminando de asegurar que siempre se cree una nueva transaccion en la instancia contenedora de transacciones de un usuario
-        console.log("Base de datos: ", Transaccion.getTransactionData());
+        new Transaccion(user, tipo, valor, descripcion, categoria, fecha); // Crea una nueva transacción.
+        console.log("Base de datos: ", Transaccion.getTransactionData()); // Muestra las transacciones almacenadas.
     }
 
+    // Método para imprimir transacciones en el contenedor indicado.
     printTransaction(vector, container) {
-        container.innerHTML = "";
+        container.innerHTML = ""; // Limpia el contenedor.
         if (container.id == "campoIngresos") {
             container.innerHTML = '<legend>Ingresos</legend>';
         } else if (container.id == "campoGastos") {
             container.innerHTML = '<legend>Gastos</legend>';
         }
 
+        // Agrega cada transacción al contenedor.
         for (let objeto of vector) {
             let elemento = `
                 <div class="transaccion" data-tipo="${objeto._tipo}" data-id="${objeto._id}">
@@ -30,37 +30,34 @@ export default class TransactionManager{
                         <button class="modificar">Modificar</button>
                         <button class="eliminar">Eliminar</button>
                     </div>
-                </div>`
+                </div>`;
             container.innerHTML += elemento;
         }
     }
 
+    // Método para eliminar una transacción.
     deleteTransaction(id, transaction) {
-        transaction.remove();  // Eliminar el elemento correspondiente 
-        let indice = Transaccion.getTransactionData().findIndex(transaccion => transaccion._id == id); //Se busca el indice de la transaccion por su id en la base de datos para poder eliminarlo ya que splice funciona  el indice 
-
-        let user = Transaccion.getTransactionData()[indice]._user; //Capturamos el id del usuario de la transaccion a eliminar para actualizar las listas de este
+        transaction.remove(); // Elimina el elemento del DOM.
+        let indice = Transaccion.getTransactionData().findIndex(transaccion => transaccion._id == id); // Busca el índice de la transacción.
 
         if (indice !== -1) {
-            Transaccion.getTransactionData().splice(indice, 1);  // Eliminar la transacción del arreglo
-            console.log("Eliminada")
+            Transaccion.getTransactionData().splice(indice, 1); // Elimina la transacción del arreglo.
+            console.log("Eliminada");
         }
 
-        console.log(Transaccion.getTransactionData())
+        console.log(Transaccion.getTransactionData());
     }
 
+    // Método para actualizar una transacción existente.
     updateTransaction(id) {
-        console.log(" Desde updateTransaction ingresos")
-        //Se obtiene la transaccion de acuerdo al id capturado en el dashboard al momento de hacer click en algun elemento de la transaccion para poder buscarlo en la base de datos de las transacciones
-
+        console.log(" Desde updateTransaction ingresos");
         let targetTransaction = Transaccion.getTransactionData().find(transaction => transaction._id == id);
-        // Actualiza los valores de la transacción existente en el arreglo
+        // Actualiza los valores de la transacción existente en el arreglo.
         targetTransaction._tipo = tipo.value;
         targetTransaction._valor = +valor.value;
         targetTransaction._descripcion = descripcion.value;
         targetTransaction._categoria = categoria.value;
         
-        console.log(Transaccion.getTransactionData())
-        // this.calcularBalance();
+        console.log(Transaccion.getTransactionData());
     }
 }

@@ -34,17 +34,26 @@
         <fieldset class="datos">
             <legend>Datos personales</legend>
             <div id="dataUser">
-                <h4>Nombre: <span id="name"></span></h4>
-                <h4>Correo: <span id="email"></span></h4>
-                <div class="datos__password">
-                    <h4>Contraseña: <span id="password"></span></h4>
+                <div class="datos__info" id="userName">
+                    <h4>Nombre:</h4>
+                    <p id="name"></p>
+                </div>
+                
+                <div class="datos__info" id="userEmail">
+                    <h4>Correo:</h4>
+                    <p id="email"></p>
+                </div>
+                
+                <div class="datos__info" id="userPassword">
+                    <h4>Contraseña:</h4>
+                    <p id="password"></p>
                     <div>
-                        <button id="showPassword">Mostrar contraseña</button>
+                        <button id="showPassword">Ver contraseña</button>
                     </div>
                 </div>
             </div>
 
-            <div class="modificar__formulario" id="updateForm">
+            <!-- <div class="modificar__formulario" id="updateForm">
                 <h4>Si no deseas cambiar datos haz click en guardar</h4>
                 <div class="datos__modificar">
                     <h4 class="datos__titulo">Nombre:</h4>
@@ -66,7 +75,7 @@
                         <input id="updatePassword" type="text">
                     </div>
                 </div>
-            </div>
+            </div> -->
             
             <div class="datos__boton">
                 <button id="updateData">Modificar</button>
