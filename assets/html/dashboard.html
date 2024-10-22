@@ -17,6 +17,23 @@
                 <button id="account">Mi cuenta</button>
                 <button id="logout">Cerrar sesión</button>
             </div>
+
+            <div class="mes">
+                <select id="month">
+                    <option value="01">Enero</option>
+                    <option value="02">Febrero</option>
+                    <option value="03">Marzo</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Mayo</option>
+                    <option value="06">Junio</option>
+                    <option value="07">Julio</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Septiembre</option>
+                    <option value="10" selected>Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+            </div>
         </fieldset>
 
         <fieldset class="balance">
@@ -74,18 +91,40 @@
     
         <fieldset class="transacciones">
             <legend id="tituloSeccion">Lista de transacciones</legend>
-            <fieldset id="campoIngresos">
-                <legend >Ingresos</legend>
 
-                <p>Sin transacciones</p>
-            </fieldset>
-            
-            
-            <fieldset id="campoGastos">
-                <legend>Gastos</legend>
+                
 
-                <p>Sin transacciones</p>
-            </fieldset>
+            <div class="transacciones__pagina"> 
+                <button id="viewAll">Ver todas</button>
+
+                <select id="sizePage">
+                    <option disabled ># transacciones</option>
+                    <option value="5" selected>5 por pagina</option>
+                    <option value="10">10 por página</option>
+                    <option value="15">15 por página</option>
+                    <option value="20">20 por página</option>
+                </select>
+            </div>
+
+            <div class="transacciones__contenedor">
+                <fieldset>
+                    <legend >Ingresos</legend>
+                    <div id="campoIngresos"></div>
+                    <div class="botones__pagina" id="pageIngresos"></div>
+                </fieldset>
+                
+                <fieldset >
+                    <legend>Gastos</legend>
+                    <div id="campoGastos"></div>
+                    <div class="botones__pagina" id="pageGastos"></div>
+                </fieldset>
+
+                <fieldset>
+                    <legend >Transacciones</legend>
+                    <div id="campoTransacciones"></div>
+                    <div class="botones__pagina" id="pageTransacciones"></div>
+                </fieldset>
+            </div>
         </fieldset>
     </main>
 

@@ -69,5 +69,15 @@ export function instanceTest(){
     admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2150, "Comision trabajo", "Comisión", "2024-10-08");
     admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 450, "Factura hogar", "Servicios", "2024-10-08");
 
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 6500, "Pago nomina", "Salario", "2024-10-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1400, "Alquiler casa", "Arriendo", "2024-10-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2150, "Comision trabajo", "Comisión", "2024-10-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 450, "Factura hogar", "Servicios", "2024-10-08");
+
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 6500, "Pago nomina", "Salario", "2024-10-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 1400, "Alquiler casa", "Arriendo", "2024-10-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Ingreso", 2150, "Comision trabajo", "Comisión", "2024-10-08");
+    admin.getTransactions().getManager().createTransaction(admin.getId(), "Gasto", 450, "Factura hogar", "Servicios", "2024-10-08");
+
     admin.getTransactions().updateListUser(admin.getId());
 }

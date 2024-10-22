@@ -8,6 +8,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+}
+
+.mes{
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .balance{
@@ -22,18 +30,25 @@
     justify-content: space-around;
 }
 
-.transacciones{
-    display: flex;
-    justify-content: space-between;
-
-}
-
 .transacciones > legend{
     text-align: center;
 }
 
 .transacciones fieldset{
     width: 100%;
+}
+
+.transacciones__contenedor{
+    display: flex;
+    justify-content: center;
+}
+
+.transacciones__contenedor fieldset:last-child{
+    display: none;
+}
+
+.transacciones__pagina{
+    text-align: end;
 }
 
 .transaccion{
@@ -46,6 +61,17 @@
 .transaccion > p
 .transaccion > h4{
     flex: 0 0 calc(25% - 3vw);
+}
+
+.pagina{
+    display: none;
+}
+
+.botones__pagina{
+    display: flex;
+    justify-content: center;
+    gap: 1vw;
+    margin: 1vw 0;
 }
 
 /***LOG IN***/
@@ -63,6 +89,7 @@ main{
 
 .dashboard{
     flex-direction: column;
+    height: auto;
 }
 
 .dashboard fieldset{
